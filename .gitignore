@@ -16,6 +16,7 @@ CMakeScripts/
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
+.cache
 
 # IDE and OS files
 .vscode/
