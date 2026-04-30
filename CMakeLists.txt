@@ -4,8 +4,8 @@ project(bno08x_driver)
 # Check for compiler options
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(
-    -Wall 
-    -Wextra 
+    -Wall
+    -Wextra
     -Wpedantic
     -Wno-sign-compare
     -Wno-unused-parameter
@@ -20,6 +20,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(robot_msgs REQUIRED)
 
 # Add include directories for main driver
 include_directories(
@@ -47,16 +48,13 @@ target_include_directories(bno08x_driver PUBLIC
 # Set the required C and C++ standards
 target_compile_features(bno08x_driver PUBLIC cxx_std_17)
 
-# Link against sh2 library
-target_link_libraries(bno08x_driver
+target_link_libraries(bno08x_driver PUBLIC
+  ${robot_msgs_TARGETS}
+  ${sensor_msgs_TARGETS}
+  ${std_msgs_TARGETS}
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs_library
   sh2_library
-)
-
-ament_target_dependencies(
-  bno08x_driver
-  "rclcpp"
-  "sensor_msgs"
-  "std_msgs"
 )
 
 # Install the executable and the config files
